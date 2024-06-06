@@ -1,25 +1,28 @@
-title :"count no.of even and odd"
+title : "no.of even odd in array"
 .model small
 .stack 100h
 .data
-    num db 5,4,2,1,54
-    count dw 5
+ arr dw 6,23h,45h,65h,32h,54h,21h
+ count dw 6
+ odd dw 0
+ even dw 0
 .code
-    mov ax,@data
-    mov ds,ax
-    xor ax,ax
-    mov cx,count
-    mov si,0
-    mov bx,0;odd count
-    mov dx,0;even count
-repeat: mov al,num[si]
-        ror al,1
-        jc odd
-        inc dx
-        jmp next
-odd:inc bx
-next:inc si
-     dec cx
-     jnc repeat
-     mov ah,4ch
-     int 21h
+ mov ax,@data
+ mov ds,ax
+ xor bx,bx
+ mov si,2
+ mov cx,count
+again:mov ax,arr[si];
+      test ax,1
+      jnz oddCount
+      inc bx
+      jmp next
+oddCount:inc odd   
+next:add si,2
+loop again
+mov ax,count
+sub ax,bx
+mov even,bx
+mov ah,4ch
+int 21h
+end
