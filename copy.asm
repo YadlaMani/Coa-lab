@@ -1,20 +1,21 @@
-title : "copy a string"
+title : "Copy a string"
 .model small
 .stack 100h
 .data
- text1 db "adbcdef"
+ text1 db "abcdef"
  count dw 6
- text2 db dup(0)
+ text2 db 6 dup(0)
 .code
     mov ax,@data
     mov ds,ax
     xor ax,ax
-    mov si,offset text1
-    mov di,offset text2
+   
+    mov si,0
     mov cx,count
-    cld
-    rep movsb
-    mov ah,4ch
-    int 21h
-    end
-    
+again:mov al,text1[si];
+      mov text2[si],al
+      inc si
+      loop again
+      mov ah,4ch
+      int 21h
+      end
